@@ -1,9 +1,10 @@
 import React from 'react';
-import Enzyme, { mount } from 'enzyme';
+import Enzyme, { mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import renderer from 'react-test-renderer';
 import SelectInput from 'Components/Input/SelectInput';
 import { noop } from '@deskpro/react-components/dist/utils';
+import 'raf/polyfill';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -77,6 +78,7 @@ it('+++capturing Snapshot of SelectInput', () => {
       dataSource={{ getOptions: options }}
       token={token}
       className="test"
+      label="Label"
       selectPreviousToken={noop}
       selectNextToken={noop}
       removeToken={noop}
@@ -95,6 +97,7 @@ it('+++capturing Snapshot of SelectInput with icon', () => {
       dataSource={{ getOptions: optionsWithIcon }}
       token={selectTokenIcon}
       className="test"
+      label="Label"
       selectPreviousToken={noop}
       selectNextToken={noop}
       removeToken={noop}
@@ -113,6 +116,7 @@ it('+++capturing Snapshot of SelectInput simple', () => {
       dataSource={{ getOptions: optionsSimple }}
       token={selectTokenIcon}
       className="test"
+      label="Label"
       selectPreviousToken={noop}
       selectNextToken={noop}
       removeToken={noop}
@@ -131,6 +135,7 @@ it('+++capturing Snapshot of SelectInput value', () => {
       dataSource={{ getOptions: optionsValue }}
       token={selectTokenIcon}
       className="test"
+      label="Label"
       selectPreviousToken={noop}
       selectNextToken={noop}
       removeToken={noop}
@@ -149,12 +154,29 @@ it('+++capturing Snapshot of SelectInput value', () => {
       dataSource={{ getOptions: optionsName }}
       token={selectTokenIcon}
       className="test"
+      label="Label"
       selectPreviousToken={noop}
       selectNextToken={noop}
       removeToken={noop}
     />
   ).toJSON();
   expect(renderedValue).toMatchSnapshot();
+});
+
+it('should not fail when calling focus() for SelectInput', () => {
+  const token = { type: 'country', value: 'GB' };
+  const wrapper = shallow(
+    <SelectInput
+      dataSource={{ getOptions: options }}
+      token={token}
+      label="Country"
+      className="test"
+      selectPreviousToken={noop}
+      selectNextToken={noop}
+      removeToken={noop}
+    />
+  );
+  wrapper.instance().focus();
 });
 
 describe('testSelectInput', () => {

@@ -27,11 +27,13 @@ export default class SelectInput extends TokenInput {
       filter:         '',
     };
 
-    if (!props.token.meta) {
+    this.cx = classNames.bind(styles);
+  }
+
+  componentDidMount() {
+    if (!this.props.token.meta) {
       this.loadData();
     }
-
-    this.cx = classNames.bind(styles);
   }
 
   componentWillUnmount() {
@@ -100,7 +102,9 @@ export default class SelectInput extends TokenInput {
   };
 
   focus = () => {
-    this.tokenInput.focus();
+    if (this.searchInput) {
+      this.searchInput.focus();
+    }
   };
 
   handleChange = (option) => {
